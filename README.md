@@ -54,7 +54,11 @@ This repository is part of a Course Selling Project and contains the backend cod
 }
 ```
 
-### overview of Routes
+### Overview of Routes
+#### Admin
+![admin](https://github.com/navnit0707/CourseSellingBackend/assets/40719341/d05bfb98-4cc3-444e-ae8b-41da68f82108)
+#### User
+![user](https://github.com/navnit0707/CourseSellingBackend/assets/40719341/05d027db-f056-4ead-839a-385c66105745)
 
 Please follow these guidelines while using the specified routes to ensure smooth functionality and interaction with the Course Selling backend.
 
