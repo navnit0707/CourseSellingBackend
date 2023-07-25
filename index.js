@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 //Routes files
 const adminRouter = require("./routes/admin");
+const userRouter = require("./routes/user");
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 //routes controll
 app.use("/admin", adminRouter);
+app.use("/user", userRouter);
 
 // Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/courses", {
