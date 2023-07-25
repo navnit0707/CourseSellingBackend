@@ -1,4 +1,10 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+
+const { SECRET } = require("../middleware/auth");
+
+const { Admin } = require("../db");
 
 const router = express.Router();
 
@@ -7,7 +13,22 @@ router.get("/me", (req, res) => {
 });
 
 router.post("/signup", (req, res) => {
-  res.send("signup");
+  const { username, password } = req.body;
+  function callback(admin) {
+    if (admin) {
+      res.status(403).json({ message: "Admin already exists" });
+    } else {
+      const obj = { username: username, password: password };
+      const newAdmin = new Admin(obj);
+      newAdmin.save();
+
+      const token = jwt.sign({ username, role: "admin" }, SECRET, {
+        expiresIn: "1h",
+      });
+      res.json({ message: "Admin created successfully", token });
+    }
+  }
+  Admin.findOne({ username }).then(callback);
 });
 
 router.post("/login", (req, res) => {
