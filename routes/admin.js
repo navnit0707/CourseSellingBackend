@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const { SECRET } = require("../middleware/auth");
 
-const { Admin } = require("../db");
+const { Admin, Course } = require("../db");
 
 const router = express.Router();
 
@@ -44,8 +44,10 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/courses", (req, res) => {
-  res.send("courses ");
+router.post("/courses", async (req, res) => {
+  const course = new Course(req.body);
+  await course.save();
+  res.json({ message: "Course created successfully", courseId: course.id });
 });
 
 router.put("/courses/:courseId", (req, res) => {
