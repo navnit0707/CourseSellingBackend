@@ -59,7 +59,9 @@ router.get("/courses", authenticateJwt, async (req, res) => {
   res.json({ courses });
 });
 
-router.get("/course/:courseId", (req, res) => {
-  res.send("get courses with id");
+router.get("/course/:courseId", async (req, res) => {
+  const courseId = req.params.courseId;
+  const course = await Course.findById(courseId);
+  res.json({ course });
 });
 module.exports = router;
