@@ -14,7 +14,6 @@ app.use(express.json());
 app.use("/admin", adminRouter);
 
 // Connect to MongoDB
-
 mongoose.connect("mongodb://localhost:27017/courses", {
   useNewUrlParser: true,
   useUnifiedTopology: true,

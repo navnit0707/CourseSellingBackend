@@ -31,8 +31,17 @@ router.post("/signup", (req, res) => {
   Admin.findOne({ username }).then(callback);
 });
 
-router.post("/login", (req, res) => {
-  res.send("login");
+router.post("/login", async (req, res) => {
+  const { username, password } = req.headers;
+  const admin = await Admin.findOne({ username, password });
+  if (admin) {
+    const token = jwt.sign({ username, role: "admin" }, SECRET, {
+      expiresIn: "1h",
+    });
+    res.json({ message: "Logged in successfully", token });
+  } else {
+    res.status(403).json({ message: "Invalid username or password" });
+  }
 });
 
 router.post("/courses", (req, res) => {
