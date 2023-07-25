@@ -1,10 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const { Admin, Course } = require("../db");
 
 const { SECRET } = require("../middleware/auth");
-
-const { Admin, Course } = require("../db");
+const { authenticateJwt } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -44,7 +44,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/courses", async (req, res) => {
+router.post("/courses", authenticateJwt, async (req, res) => {
   const course = new Course(req.body);
   await course.save();
   res.json({ message: "Course created successfully", courseId: course.id });
@@ -54,8 +54,9 @@ router.put("/courses/:courseId", (req, res) => {
   res.send("courses with id");
 });
 
-router.get("/courses", (req, res) => {
-  res.send("get courses");
+router.get("/courses", authenticateJwt, async (req, res) => {
+  const courses = await Course.find({});
+  res.json({ courses });
 });
 
 router.get("/course/:courseId", (req, res) => {
